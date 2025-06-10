@@ -1,0 +1,54 @@
+<!-- src/app/shared/landing-page/landing-page.component.html -->
+<div class="landing-container">
+  <mat-card class="glass-card animate__animated animate__fadeInDown">
+    <!-- Logo/Icon -->
+    <div class="text-center mb-3">
+      <mat-icon class="main-icon">task_alt</mat-icon>
+    </div>
+
+    <!-- App Title -->
+    <h2 class="fw-bold text-center mb-2">Welcome to</h2>
+    <h3 class="text-primary text-center mb-4">Multi-Tenant Task App</h3>
+
+    <!-- Loading Spinner -->
+    @if (loading) {
+      <div class="d-flex justify-content-center my-3">
+        <mat-progress-spinner color="primary" mode="indeterminate" diameter="40"></mat-progress-spinner>
+      </div>
+    }
+
+    <!-- Error Message -->
+    @if (error) {
+      <div class="alert alert-danger small text-center mb-3 px-2 py-1">
+        {{ error }}
+      </div>
+    }
+
+    <!-- Microsoft Login Button -->
+    <button
+      mat-raised-button
+      color="primary"
+      class="login-btn w-100 mb-3 d-flex align-items-center justify-content-center"
+      (click)="loginAsUser()"
+      [disabled]="loading"
+    >
+      <mat-icon svgIcon="microsoft" class="me-2"></mat-icon>
+      Login with Microsoft
+    </button>
+
+    <!-- Role-Based Buttons -->
+    <div class="d-flex gap-3 mt-2 mb-4">
+      <button mat-stroked-button color="accent" class="w-100 role-btn" (click)="navigateToAdminLogin()">
+        <mat-icon class="me-1">admin_panel_settings</mat-icon>
+        Admin Login
+      </button>
+      <button mat-stroked-button color="warn" class="w-100 role-btn" (click)="navigateToUserLogin()">
+        <mat-icon class="me-1">security</mat-icon>
+        User Login
+      </button>
+    </div>
+
+    <!-- Footer -->
+    <div class="text-center small text-muted">⚡ Powered by <strong>Spektra Systems</strong></div>
+  </mat-card>
+</div>

@@ -1,0 +1,51 @@
+<div class="card shadow-sm mt-3">
+  <div class="card-header">
+    💬 Task Comments
+  </div>
+
+  <div class="card-body">
+
+    <!-- ✅ Alerts -->
+    <div *ngIf="success" class="alert alert-success py-2">
+      {{ success }}
+    </div>
+    <div *ngIf="error" class="alert alert-danger py-2">
+      {{ error }}
+    </div>
+
+    <!-- 🔄 Loading Spinner -->
+    <div *ngIf="loading" class="text-center my-2">
+      <div class="spinner-border text-primary" role="status"></div>
+    </div>
+
+    <!-- ✅ Comments List -->
+    <div *ngIf="!loading && comments.length > 0">
+      <div class="border rounded p-2 mb-2" *ngFor="let c of comments">
+        <div class="d-flex justify-content-between">
+          <strong>{{ c.createdByUser?.username || 'User' }}</strong>
+          <small class="text-muted">{{ c.createdAt | date: 'short' }}</small>
+        </div>
+        <p class="mb-0 mt-1">{{ c.commentText }}</p>
+      </div>
+    </div>
+
+    <!-- 🚫 No Comments -->
+    <div *ngIf="!loading && comments.length === 0" class="alert alert-warning">
+      No comments yet.
+    </div>
+
+    <!-- ✍️ Add New Comment (conditionally shown) -->
+    <div class="input-group mt-3" *ngIf="canPost">
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Write a comment..."
+        [(ngModel)]="newComment"
+        (keyup.enter)="addComment()"
+        [disabled]="loading"
+      />
+      <button class="btn btn-primary" (click)="addComment()" [disabled]="loading || !newComment.trim()">Post</button>
+    </div>
+
+  </div>
+</div>

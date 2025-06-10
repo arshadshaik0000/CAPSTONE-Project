@@ -1,0 +1,50 @@
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+.login-card {
+  max-width: 400px;
+  width: 100%;
+  border-radius: 1rem;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+
+.btn-purple[mat-raised-button] {
+  @include mat-elevation(2);
+  background-color: #6f42c1 !important;
+  color: #fff !important;
+}
+
+.btn-purple[mat-raised-button]:hover {
+  background-color: #5930a5 !important;
+}
+.chart-card, .summary-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-radius: 12px;
+}
+
+.chart-card:hover,
+.summary-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.table th,
+.table td {
+  vertical-align: middle;
+}
+table tbody tr:hover {
+  background-color: #f1f9ff;
+  transition: background-color 0.3s ease;
+}
+
+.btn {
+  transition: all 0.3s ease-in-out;
+}
+

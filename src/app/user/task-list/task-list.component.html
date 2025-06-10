@@ -1,0 +1,129 @@
+<app-navbar></app-navbar>
+
+<div class="container mt-4">
+  <h2 class="mb-4">📋 My Tasks</h2>
+
+  <!-- Task Summary -->
+  <div class="row text-center mb-4">
+    <div class="col">
+      <div class="card bg-light shadow-sm">
+        <div class="card-body">
+          <strong>Total:</strong> {{ taskSummary.total }} |
+          <span class="text-success">✔ Completed: {{ taskSummary.completed }}</span> |
+          <span class="text-primary">🔄 In Progress: {{ taskSummary.inProgress }}</span> |
+          <span class="text-muted">📝 To Do: {{ taskSummary.toDo }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Search Bar -->
+  <div class="row mb-3">
+    <div class="col-md-6">
+      <input class="form-control" placeholder="Search tasks..." [(ngModel)]="searchTerm" (input)="searchTasks()" />
+    </div>
+  </div>
+
+  <!-- Filters -->
+  <div class="row mb-3">
+    <div class="col-md-4">
+      <label>Status</label>
+      <select class="form-select" [(ngModel)]="selectedStatus" (change)="filterTasks()">
+        <option value="">All</option>
+        <option value="To Do">To Do</option>
+        <option value="In Progress">In Progress</option>
+        <option value="Completed">Completed</option>
+      </select>
+    </div>
+    <div class="col-md-4">
+      <label>Priority</label>
+      <select class="form-select" [(ngModel)]="selectedPriority" (change)="filterTasks()">
+        <option value="">All</option>
+        <option value="1">High</option>
+        <option value="2">Medium</option>
+        <option value="3">Low</option>
+      </select>
+    </div>
+    <div class="col-md-4 d-flex align-items-end">
+      <button class="btn btn-secondary w-100" (click)="sortByDueDate()">Sort by Due Date {{ sortAsc ? '↑' : '↓' }}</button>
+    </div>
+  </div>
+
+  <!-- Pie Chart -->
+  <div class="row mb-4" *ngIf="!isLoading">
+    <div class="col-md-6 offset-md-3">
+      <ngx-charts-pie-chart
+        [view]="[400, 300]"
+        [results]="statusChartData"
+        [legend]="true"
+        [labels]="true"
+        [doughnut]="true"
+        [explodeSlices]="false"
+        [animations]="true">
+      </ngx-charts-pie-chart>
+    </div>
+  </div>
+
+  <!-- Spinner -->
+  <div *ngIf="isLoading" class="text-center my-5">
+    <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+
+  <!-- Task Cards -->
+  <div *ngIf="!isLoading">
+    <div *ngIf="filteredTasks.length > 0; else noTasks">
+      <div *ngFor="let task of filteredTasks" class="card mb-4 shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">{{ task.title }}</h5>
+          <p class="card-text">{{ task.description }}</p>
+
+          <div class="mb-2">
+            <span class="badge bg-info">Due: {{ task.dueDate | date }}</span>
+            <span class="badge bg-{{ getPriorityColor(task.priority) }}">{{ task.priority }}</span>
+            <span class="badge bg-{{ getStatusColor(task.status) }}">{{ task.status }}</span>
+          </div>
+
+          <!-- Progress Bar -->
+          <div class="progress my-2" style="height: 20px;">
+            <div
+              class="progress-bar bg-{{ getStatusColor(task.status) }}"
+              role="progressbar"
+              [style.width.%]="getTaskProgress(task)"
+              [attr.aria-valuenow]="getTaskProgress(task)"
+              aria-valuemin="0"
+              aria-valuemax="100">
+              {{ getTaskProgress(task) }}%
+            </div>
+          </div>
+
+          <!-- Update Status -->
+          <div class="form-group mt-3">
+            <label>Update Status:</label>
+            <select class="form-select" [ngModel]="task.status" (ngModelChange)="updateStatus(task, $event)">
+              <option value="To Do">To Do</option>
+              <option value="In Progress">In Progress</option>
+              <option value="Completed">Completed</option>
+            </select>
+          </div>
+
+          <!-- Toggle Comments -->
+          <div class="mt-3 d-flex justify-content-end">
+            <button class="btn btn-sm btn-outline-primary" (click)="toggleComments(task.taskId)">
+              {{ expandedTaskId === task.taskId ? 'Hide' : 'View' }} Comments
+            </button>
+          </div>
+
+          <!-- Task Comments -->
+          <app-task-detail *ngIf="expandedTaskId === task.taskId" [taskId]="task.taskId" class="mt-3"></app-task-detail>
+        </div>
+      </div>
+    </div>
+
+    <!-- Fallback -->
+    <ng-template #noTasks>
+      <div class="alert alert-warning">No tasks available.</div>
+    </ng-template>
+  </div>
+</div>

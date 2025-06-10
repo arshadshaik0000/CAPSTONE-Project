@@ -1,0 +1,33 @@
+<div class="container mt-4">
+  <h3 class="mb-3">🛠️ Super Admin System Settings</h3>
+
+  <form *ngIf="settings" (ngSubmit)="saveSettings()" class="p-3 bg-white shadow rounded">
+    <div class="form-check form-switch mb-3">
+      <input class="form-check-input" type="checkbox" [(ngModel)]="settings.requireTaskApproval" name="requireTaskApproval">
+      <label class="form-check-label">Require Task Approval</label>
+    </div>
+
+    <div class="mb-3">
+      <label>Max Tasks Per User</label>
+      <input type="number" class="form-control" [(ngModel)]="settings.maxTasksPerUser" name="maxTasksPerUser">
+    </div>
+
+    <div class="form-check form-switch mb-3">
+      <input class="form-check-input" type="checkbox" [(ngModel)]="settings.allowCommentThreads" name="allowCommentThreads">
+      <label class="form-check-label">Allow Comment Threads</label>
+    </div>
+
+    <div class="mb-3">
+      <label>Status Message</label>
+      <input type="text" class="form-control" [(ngModel)]="settings.statusMessage" name="statusMessage">
+    </div>
+
+    <button type="submit" class="btn btn-primary">💾 Save Settings</button>
+  </form>
+
+  <div *ngIf="loading" class="mt-3 text-primary">
+    <div class="spinner-border" role="status"></div> Loading...
+  </div>
+
+  <div *ngIf="error" class="alert alert-danger mt-3">{{ error }}</div>
+</div>

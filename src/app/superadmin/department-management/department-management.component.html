@@ -1,0 +1,74 @@
+<!-- src/app/superadmin/department-management/department-management.component.html -->
+
+<div class="container mt-4">
+  <h3 class="mb-4">Department Management</h3>
+
+  <div class="card mb-4">
+    <div class="card-body">
+      <h5 class="card-title">
+        {{ isEditing ? 'Edit Department' : 'Add New Department' }}
+      </h5>
+
+      <form (ngSubmit)="submitDepartment()">
+        <div class="row">
+          <div class="col-md-4 mb-3">
+            <label>Name</label>
+            <input type="text" [(ngModel)]="name" name="name" class="form-control" required />
+          </div>
+          <div class="col-md-6 mb-3">
+            <label>Description</label>
+            <input type="text" [(ngModel)]="description" name="description" class="form-control" required />
+          </div>
+          <div class="col-md-2 d-flex align-items-end">
+            <button type="submit" class="btn btn-primary w-100">
+              {{ isEditing ? 'Update' : 'Add' }}
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Spinner -->
+  @if (isLoading) {
+    <div class="text-center my-4">
+      <div class="spinner-border text-primary"></div>
+    </div>
+  }
+
+  <!-- No Departments -->
+  @if (!isLoading && departments.length === 0) {
+    <div class="alert alert-info">No departments found.</div>
+  }
+
+  <!-- Department List -->
+  @if (departments.length > 0) {
+    <table class="table table-bordered table-hover">
+      <thead class="table-light">
+        <tr>
+          <th>#</th>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (dept of departments; track dept.departmentId) {
+          <tr>
+            <td>{{ $index + 1 }}</td>
+            <td>{{ dept.name }}</td>
+            <td>{{ dept.description }}</td>
+            <td>
+              <button class="btn btn-sm btn-outline-primary me-2" (click)="editDepartment(dept)">
+                Edit
+              </button>
+              <button class="btn btn-sm btn-outline-danger" (click)="confirmDelete(dept.departmentId)">
+                Delete
+              </button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+</div>

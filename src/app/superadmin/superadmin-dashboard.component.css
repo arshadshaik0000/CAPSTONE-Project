@@ -1,0 +1,93 @@
+/* 🔄 Fade In Animation */
+.fade-in {
+  animation: fadeIn 0.4s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 🖱️ Hover Effects */
+.hover-zoom {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.hover-zoom:hover {
+  transform: scale(1.03);
+  box-shadow: 0 0.75rem 1.5rem rgba(0, 0, 0, 0.1);
+}
+
+.hover-scale {
+  transition: transform 0.2s ease-in-out;
+}
+.hover-scale:hover {
+  transform: scale(1.02);
+}
+
+/* ⚙️ Transition Utility */
+.transition {
+  transition: all 0.3s ease-in-out;
+}
+
+/* 💠 Dashboard Summary Cards */
+.dashboard-card {
+  border-radius: 12px;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease-in-out;
+  background-color: #ffffff;
+}
+.dashboard-card:hover {
+  transform: translateY(-4px);
+}
+
+/* 📊 Section Cards */
+.section-card {
+  margin-bottom: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.04);
+}
+
+/* 🏷 Chart Headers */
+.chart-header {
+  background-color: #212529;
+  color: white;
+  font-weight: 500;
+  padding: 0.75rem 1rem;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+/* 📈 Chart Container */
+.responsive-chart {
+  max-width: 100%;
+  overflow-x: auto;
+  padding: 1rem;
+}
+
+/* 🧩 Table Styling */
+.table th,
+.table td {
+  vertical-align: middle;
+  text-align: center;
+}
+
+.table th {
+  font-weight: 600;
+}
+
+.table thead th {
+  background-color: #343a40;
+  color: #fff;
+}
+
+/* 🪟 General Padding for Cards */
+.card {
+  border-radius: 10px;
+  border: 1px solid #ddd;
+}

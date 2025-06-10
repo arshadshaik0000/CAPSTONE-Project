@@ -1,0 +1,142 @@
+<div class="d-flex">
+  <!-- Sidebar -->
+  <nav class="bg-dark text-white p-3 vh-100 sidebar">
+    <h5 class="mb-4">Admin Panel</h5>
+    <ul class="nav flex-column">
+      <li class="nav-item mb-2">
+        <a class="nav-link text-white" routerLink="/admin/dashboard" routerLinkActive="active">Dashboard</a>
+      </li>
+      <li class="nav-item mb-2">
+        <a class="nav-link text-white" routerLink="/admin/users" routerLinkActive="active">Manage Users</a>
+      </li>
+      <li class="nav-item mb-2">
+        <a class="nav-link text-white" routerLink="/admin/categories" routerLinkActive="active">Manage Categories</a>
+      </li>
+      <li class="nav-item mb-2">
+        <a class="nav-link text-white" routerLink="/admin/tasks" routerLinkActive="active">Manage Tasks</a>
+      </li>
+      <li class="nav-item">
+        <button class="btn btn-outline-light w-100 mt-4" (click)="auth.logout()">Logout</button>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="flex-grow-1 main-content">
+    <!-- Profile Banner -->
+    @if (userProfile.email) {
+      <div class="alert alert-primary animated-fade mb-4">
+        <strong>Welcome:</strong> {{ userProfile.username }} |
+        <strong>Email:</strong> {{ userProfile.email }} |
+        <strong>Role:</strong> {{ userProfile.role }}
+      </div>
+    }
+
+    <h3 class="fw-bold mb-4">Admin Dashboard</h3>
+
+    <!-- Summary Cards -->
+    <div class="row g-4 text-center mb-4">
+      <div class="col-md-4">
+        <div class="card summary-card bg-info text-white">
+          <div class="card-body">
+            <h5>Total Tasks</h5>
+            <h3>{{ totalTasks }}</h3>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card summary-card bg-success text-white">
+          <div class="card-body">
+            <h5>Total Users</h5>
+            <h3>{{ totalUsers }}</h3>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card summary-card bg-warning text-dark">
+          <div class="card-body">
+            <h5>Total Categories</h5>
+            <h3>{{ totalCategories }}</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="row g-3">
+      <div class="col-md-4">
+        <a class="btn btn-outline-primary w-100 shadow-sm" routerLink="/admin/users">Manage Users</a>
+      </div>
+      <div class="col-md-4">
+        <a class="btn btn-outline-warning w-100 shadow-sm" routerLink="/admin/categories">Manage Categories</a>
+      </div>
+      <div class="col-md-4">
+        <a class="btn btn-outline-success w-100 shadow-sm" routerLink="/admin/tasks">Manage Tasks</a>
+      </div>
+    </div>
+
+    <!-- Charts Section -->
+    <div class="row mt-5 g-4">
+      <div class="col-md-6">
+        <div class="card shadow-sm">
+          <div class="card-header">📊 Task Status Breakdown</div>
+          <div class="card-body">
+            <ngx-charts-pie-chart
+              [view]="chartView"
+              [results]="statusChartData"
+              [legend]="true"
+              [labels]="true"
+              [doughnut]="true"
+              [animations]="true">
+            </ngx-charts-pie-chart>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card shadow-sm">
+          <div class="card-header">📈 Tasks Per User</div>
+          <div class="card-body">
+            <ngx-charts-bar-vertical
+              [view]="chartView"
+              [results]="userTaskChartData"
+              [legend]="false"
+              [xAxis]="true"
+              [yAxis]="true"
+              [showDataLabel]="true"
+              [animations]="true">
+            </ngx-charts-bar-vertical>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Productivity Chart -->
+    <div class="card mt-5 shadow-sm">
+      <div class="card-header">📊 User Productivity</div>
+      <div class="card-body">
+        @if (chartLoading) {
+          <div class="text-center my-3">
+            <div class="spinner-border text-primary" role="status"></div>
+          </div>
+        }
+
+        @if (!chartLoading && userProductivityData.length > 0) {
+          <ngx-charts-bar-vertical
+            [view]="chartView"
+            [results]="userProductivityData"
+            [xAxis]="true"
+            [yAxis]="true"
+            [legend]="false"
+            [showDataLabel]="true"
+            [animations]="true"
+            [scheme]="'vivid'">
+          </ngx-charts-bar-vertical>
+        }
+
+        @if (!chartLoading && userProductivityData.length === 0) {
+          <div class="alert alert-info">No productivity data available.</div>
+        }
+      </div>
+    </div>
+  </div>
+</div>

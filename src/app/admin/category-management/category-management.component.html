@@ -1,0 +1,64 @@
+<div class="container mt-4 animated-fade-in">
+  <h3 class="mb-4">📁 Manage Categories</h3>
+
+  <!-- Add Category Form -->
+  <div class="row g-2 mb-3">
+    <div class="col-md-6">
+      <input type="text" [(ngModel)]="newCategory" placeholder="New Category Name" class="form-control" />
+    </div>
+    <div class="col-md-2">
+      <button class="btn btn-success w-100" (click)="addCategory()">➕ Add</button>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  @if (loading) {
+    <div class="text-center text-muted my-3">
+      <div class="spinner-border text-primary" role="status"></div>
+      <p class="mt-2">Loading categories...</p>
+    </div>
+  }
+
+  <!-- Category Table -->
+  @if (!loading && categories.length > 0) {
+    <table class="table table-bordered table-hover shadow-sm">
+      <thead class="table-dark">
+        <tr>
+          <th>Category</th>
+          <th style="width: 200px;">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (category of categories; track category.categoryId) {
+          <tr>
+            <td>
+              @if (editingCategoryId === category.categoryId) {
+                <input class="form-control form-control-sm" [(ngModel)]="editingCategoryName" />
+              } @else {
+                {{ category.name }}
+              }
+            </td>
+            <td>
+              @if (editingCategoryId === category.categoryId) {
+                <div class="d-flex gap-2">
+                  <button class="btn btn-primary btn-sm" (click)="saveCategory()">✔ Save</button>
+                  <button class="btn btn-secondary btn-sm" (click)="cancelEdit()">✖ Cancel</button>
+                </div>
+              } @else {
+                <div class="d-flex gap-2">
+                  <button class="btn btn-warning btn-sm" (click)="editCategory(category)">✏ Edit</button>
+                  <button class="btn btn-danger btn-sm" (click)="deleteCategory(category.categoryId)">🗑 Delete</button>
+                </div>
+              }
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+
+  <!-- No Data Found -->
+  @if (!loading && categories.length === 0) {
+    <div class="alert alert-warning text-center">⚠ No categories found.</div>
+  }
+</div>

@@ -1,0 +1,52 @@
+<div class="container mt-5 animated-fade-in">
+  <div class="card shadow-sm">
+    <div class="card-header bg-dark text-white">
+      👥 Users in Your Department
+    </div>
+    <div class="card-body">
+      @if (users.length > 0) {
+        <div class="table-responsive">
+          <table class="table table-striped table-hover align-middle text-center">
+            <thead class="table-primary">
+              <tr>
+                <th>#</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (user of users; track user.userId) {
+                <tr>
+                  <td>{{ user.userId }}</td>
+                  <td>{{ user.username }}</td>
+                  <td>{{ user.email }}</td>
+                  <td>
+                    <span
+                      class="badge"
+                      [ngClass]="{
+                        'bg-primary': user.role === 'Admin',
+                        'bg-success': user.role === 'User',
+                        'bg-dark': user.role === 'SuperAdmin'
+                      }"
+                    >
+                      {{ user.role }}
+                    </span>
+                  </td>
+                  <td>
+                    <button class="btn btn-danger btn-sm" (click)="deleteUser(user.userId)">
+                      🗑 Delete
+                    </button>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      } @else {
+        <div class="alert alert-info text-center">No users found in your department.</div>
+      }
+    </div>
+  </div>
+</div>

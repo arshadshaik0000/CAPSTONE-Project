@@ -1,0 +1,27 @@
+<div class="card">
+  <div class="card-header">📊 User Productivity</div>
+
+  <div class="card-body">
+    <!-- spinner -->
+    <div *ngIf="loading" class="text-center my-3">
+      <div class="spinner-border text-primary" role="status"></div>
+    </div>
+
+    <!-- chart -->
+    <ngx-charts-bar-vertical
+      *ngIf="!loading && chartData.length"
+      [results]="chartData"
+      [view]="view"
+      [xAxis]="true"
+      [yAxis]="true"
+      [legend]="false"
+      [showDataLabel]="true"
+      [animations]="true">
+    </ngx-charts-bar-vertical>
+
+    <!-- empty-state -->
+    <div *ngIf="!loading && chartData.length === 0" class="alert alert-info">
+      No productivity data available.
+    </div>
+  </div>
+</div>

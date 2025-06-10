@@ -1,0 +1,64 @@
+<div class="vh-100 d-flex align-items-center justify-content-center bg-light">
+  <div class="card p-4 shadow rounded-3 border-0" style="width: 100%; max-width: 400px;">
+    <!-- Title -->
+    <h3 class="text-center text-primary mb-4">{{ title }} Login</h3>
+
+    <!-- Login Form -->
+    <form (ngSubmit)="login()" #loginForm="ngForm" autocomplete="off">
+      <div class="form-group mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input
+          type="email"
+          id="email"
+          class="form-control"
+          [(ngModel)]="email"
+          name="email"
+          required
+          placeholder="Enter your email"
+        />
+      </div>
+
+      <div class="form-group mb-4">
+        <label for="password" class="form-label">Password</label>
+        <input
+          type="password"
+          id="password"
+          class="form-control"
+          [(ngModel)]="password"
+          name="password"
+          required
+          placeholder="Enter your password"
+        />
+      </div>
+
+      <button type="submit" class="btn btn-primary w-100" [disabled]="loading">
+        <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
+        {{ loading ? 'Logging in...' : 'Login' }}
+      </button>
+
+      <!-- Error Message -->
+      <div *ngIf="error" class="alert alert-danger text-center mt-3 mb-0">
+        {{ error }}
+      </div>
+    </form>
+
+    <hr class="my-4" />
+
+    <!-- Microsoft Login -->
+    <button
+      type="button"
+      class="btn btn-outline-dark w-100 d-flex align-items-center justify-content-center"
+      (click)="loginWithMicrosoft()"
+      [disabled]="loading"
+    >
+      <img
+        src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/microsoft.svg"
+        width="20"
+        height="20"
+        class="me-2"
+        alt="Microsoft Logo"
+      />
+      Login with Microsoft
+    </button>
+  </div>
+</div>

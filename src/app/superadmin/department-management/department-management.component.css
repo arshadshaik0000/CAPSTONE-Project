@@ -1,0 +1,16 @@
+.table-hover tbody tr:hover {
+  background-color: #f8f9fa;
+  transition: background-color 0.2s ease-in-out;
+}
+.btn-add {
+  transition: all 0.3s ease;
+}
+.btn-add:hover {
+  background-color: #198754;
+  transform: scale(1.05);
+}
+
+.table-warning {
+  transition: background-color 0.3s ease;
+  background-color: #fff3cd !important;
+}

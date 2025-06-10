@@ -1,0 +1,36 @@
+<div class="container mt-5 animated-fade-in">
+  <div class="card shadow-sm">
+    <div class="card-header bg-dark text-white">
+      📈 User Productivity Overview
+    </div>
+
+    <div class="card-body">
+      @if (isLoading) {
+        <div class="text-center my-4">
+          <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+          <p class="mt-2">Fetching user productivity data...</p>
+        </div>
+      }
+
+      @if (!isLoading && userData.length > 0) {
+        <div class="chart-wrapper">
+          <canvas
+            baseChart
+            [data]="barChartData"
+            [type]="barChartType"
+            [options]="barChartOptions"
+            height="100"
+          ></canvas>
+        </div>
+      }
+
+      @if (!isLoading && userData.length === 0) {
+        <div class="alert alert-info text-center">
+          🚫 No productivity data available for users in this department.
+        </div>
+      }
+    </div>
+  </div>
+</div>

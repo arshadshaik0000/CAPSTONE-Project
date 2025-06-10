@@ -1,0 +1,72 @@
+<div class="vh-100 d-flex align-items-center justify-content-center bg-light">
+  <div class="card p-4 shadow-lg rounded-4 animate-fade-in" style="width: 100%; max-width: 420px;">
+    <!-- Title -->
+    <h3 class="text-center text-primary mb-4 fw-bold">User Login</h3>
+
+    <form (ngSubmit)="login()" #loginForm="ngForm" autocomplete="off">
+      <!-- Email -->
+      <div class="form-group mb-3">
+        <label class="form-label">Email</label>
+        <input
+          type="email"
+          class="form-control"
+          name="email"
+          [(ngModel)]="email"
+          placeholder="Enter your email"
+          required
+        />
+        <div *ngIf="loginForm.submitted && !email" class="text-danger small">
+          Email is required.
+        </div>
+      </div>
+
+      <!-- Password -->
+      <div class="form-group mb-4">
+        <label class="form-label">Password</label>
+        <input
+          type="password"
+          class="form-control"
+          name="password"
+          [(ngModel)]="password"
+          placeholder="Enter your password"
+          required
+        />
+        <div *ngIf="loginForm.submitted && !password" class="text-danger small">
+          Password is required.
+        </div>
+      </div>
+
+      <!-- Standard Login -->
+      <button
+        type="submit"
+        class="btn btn-primary w-100 mb-2 fw-semibold"
+        [disabled]="loading"
+      >
+        <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
+        {{ loading ? 'Logging in...' : 'Login' }}
+      </button>
+
+      <!-- Microsoft Login -->
+      <button
+        type="button"
+        class="btn btn-outline-dark w-100"
+        (click)="loginWithMicrosoft()"
+        [disabled]="loading"
+      >
+        <img
+          src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/microsoft.svg"
+          width="18"
+          height="18"
+          class="me-2"
+          alt="Microsoft"
+        />
+        Login with Microsoft
+      </button>
+
+      <!-- Error -->
+      <div *ngIf="error" class="alert alert-danger text-center mt-3">
+        {{ error }}
+      </div>
+    </form>
+  </div>
+</div>

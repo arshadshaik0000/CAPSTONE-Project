@@ -1,0 +1,115 @@
+<app-navbar></app-navbar>
+<div class="container mt-4">
+  <h2 class="text-center mb-4">📊 Super Admin Dashboard</h2>
+  @if (isLoading) {
+    <div class="text-center">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <p class="mt-2">Loading dashboard...</p>
+    </div>
+  } @else {
+    <!-- Summary Cards -->
+    <div class="row g-3 mb-4">
+      <div class="col-md-4">
+        <div class="card border-success shadow-sm">
+          <div class="card-body text-center">
+            <h5 class="card-title">Departments</h5>
+            <h3 class="fw-bold">{{ totalDepartments }}</h3>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card border-primary shadow-sm">
+          <div class="card-body text-center">
+            <h5 class="card-title">Admins</h5>
+            <h3 class="fw-bold">{{ totalAdmins }}</h3>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card border-info shadow-sm">
+          <div class="card-body text-center">
+            <h5 class="card-title">Users</h5>
+            <h3 class="fw-bold">{{ totalUsers }}</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Global Task Status Chart -->
+    <div class="card mb-5">
+      <div class="card-header bg-dark text-white">📌 Overall Task Status</div>
+      <div class="card-body">
+        <ngx-charts-pie-chart
+          [results]="globalStatusChartData"
+          [scheme]="colorScheme"
+          [view]="chartView"
+          [legend]="true"
+          [labels]="true"
+          [doughnut]="false">
+        </ngx-charts-pie-chart>
+      </div>
+    </div>
+
+    <!-- Bar Chart for Task Distribution -->
+    <div class="card mb-5">
+      <div class="card-header bg-dark text-white">📊 Task Distribution by Department</div>
+      <div class="card-body">
+        <ngx-charts-bar-vertical-stacked
+          [results]="multiSeriesChartData"
+          [scheme]="colorScheme"
+          [view]="chartView"
+          [legend]="true"
+          [xAxis]="true"
+          [yAxis]="true"
+          [xAxisLabel]="'Departments'"
+          [yAxisLabel]="'Task Count'">
+        </ngx-charts-bar-vertical-stacked>
+      </div>
+    </div>
+
+    <!-- Overall Summary Chart -->
+    <div class="card mb-5">
+      <div class="card-header bg-dark text-white">🧩 Overall Task Status Summary</div>
+      <div class="card-body">
+        <app-task-status-chart [tasks]="tasks"></app-task-status-chart>
+      </div>
+    </div>
+
+    <!-- Department Table -->
+    <div class="card mb-4">
+      <div class="card-header bg-secondary text-white">📈 Department Stats</div>
+      <div class="card-body table-responsive">
+        <table class="table table-bordered table-hover text-center align-middle">
+          <thead class="table-dark">
+            <tr>
+              <th>#</th>
+              <th>Department</th>
+              <th>Users</th>
+              <th>Total Tasks</th>
+              <th>Completed</th>
+              <th>In Progress</th>
+              <th>To Do</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (dept of departmentStats; track dept.departmentId) {
+              <tr>
+                <td>{{ dept.departmentId }}</td>
+                <td>{{ dept.name }}</td>
+                <td>{{ dept.userCount }}</td>
+                <td>{{ dept.taskCount }}</td>
+                <td>{{ dept.completedCount }}</td>
+                <td>{{ dept.inProgressCount }}</td>
+                <td>{{ dept.toDoCount }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  }
+</div>

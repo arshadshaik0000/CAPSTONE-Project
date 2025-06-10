@@ -1,0 +1,85 @@
+<!-- src/app/superadmin/admin-management/admin-management.component.html -->
+
+<div class="container mt-4">
+  <h3 class="mb-4">Admin Management</h3>
+
+  <!-- Create Admin Form -->
+  <div class="card mb-4">
+    <div class="card-body">
+      <h5 class="card-title">Add New Admin</h5>
+      <form (ngSubmit)="createAdmin()">
+        <div class="row">
+          <div class="col-md-3 mb-3">
+            <label>Username</label>
+            <input type="text" [(ngModel)]="username" name="username" class="form-control" required />
+          </div>
+          <div class="col-md-3 mb-3">
+            <label>Email</label>
+            <input type="email" [(ngModel)]="email" name="email" class="form-control" required />
+          </div>
+          <div class="col-md-3 mb-3">
+            <label>Password</label>
+            <input type="password" [(ngModel)]="password" name="password" class="form-control" required />
+          </div>
+          <div class="col-md-3 mb-3">
+            <label>Department</label>
+            <select class="form-select" [(ngModel)]="departmentId" name="departmentId" required>
+              <option [ngValue]="null">Select</option>
+              @for (dept of departments; track dept.departmentId) {
+                <option [value]="dept.departmentId">{{ dept.name }}</option>
+              }
+            </select>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-success mt-2">Create Admin</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Loading Spinner -->
+  @if (isLoading) {
+    <div class="text-center my-4">
+      <div class="spinner-border text-primary"></div>
+    </div>
+  }
+
+  <!-- No Admins -->
+  @if (!isLoading && admins.length === 0) {
+    <div class="alert alert-info">No admins found.</div>
+  }
+
+  <!-- Admin Table -->
+  @if (admins.length > 0) {
+    <table class="table table-bordered table-striped">
+      <thead class="table-light">
+        <tr>
+          <th>#</th>
+          <th>Username</th>
+          <th>Email</th>
+          <th>Tenant ID</th>
+          <th>Role</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (admin of admins; track admin.userId) {
+          <tr>
+            <td>{{ $index + 1 }}</td>
+            <td>{{ admin.username }}</td>
+            <td>{{ admin.email }}</td>
+            <td>{{ admin.tenantId }}</td>
+            <td>{{ admin.role }}</td>
+            <td>
+              <button class="btn btn-sm btn-outline-primary me-2" (click)="confirmRoleUpdate(admin)">
+                Change Role
+              </button>
+              <button class="btn btn-sm btn-outline-danger" (click)="confirmDelete(admin.userId)">
+                Delete
+              </button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+</div>

@@ -1,0 +1,50 @@
+<div class="container mt-4 animated-fade-in">
+  <h3 class="mb-3">📂 Task Categories</h3>
+
+  <table class="table table-hover table-bordered shadow-sm rounded overflow-hidden">
+    <thead class="table-dark">
+      <tr>
+        <th style="width: 60px;">#</th>
+        <th>Category Name</th>
+        <th style="width: 220px;">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (category of categories; track category.categoryId) {
+        <tr>
+          <td>{{ category.categoryId }}</td>
+          <td>
+            @if (editingId === category.categoryId) {
+              <input
+                type="text"
+                [(ngModel)]="newName"
+                class="form-control form-control-sm"
+                placeholder="New name..."
+                autofocus
+              />
+            } @else {
+              {{ category.name }}
+            }
+          </td>
+          <td>
+            @if (editingId === category.categoryId) {
+              <div class="d-flex gap-2">
+                <button class="btn btn-success btn-sm" (click)="updateCategory(category.categoryId)">✔ Save</button>
+                <button class="btn btn-secondary btn-sm" (click)="cancelEdit()">✖ Cancel</button>
+              </div>
+            } @else {
+              <div class="d-flex gap-2">
+                <button class="btn btn-primary btn-sm" (click)="startEdit(category)">✏ Edit</button>
+                <button class="btn btn-danger btn-sm" (click)="deleteCategory(category.categoryId)">🗑 Delete</button>
+              </div>
+            }
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+
+  @if (categories.length === 0) {
+    <div class="alert alert-warning text-center">No categories found.</div>
+  }
+</div>

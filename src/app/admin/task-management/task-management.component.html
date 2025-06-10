@@ -1,0 +1,146 @@
+<div class="container mt-4 animated-fade-in">
+  <h3 class="mb-4">🛠 Manage Department Tasks</h3>
+
+  <!-- Add Task -->
+  <div class="card mb-4 shadow-sm">
+    <div class="card-header bg-primary text-white">➕ Add New Task</div>
+    <div class="card-body row g-3">
+      <div class="col-md-4">
+        <input type="text" class="form-control" [(ngModel)]="newTask.title" placeholder="Task Title" />
+      </div>
+      <div class="col-md-4">
+        <input type="text" class="form-control" [(ngModel)]="newTask.description" placeholder="Description" />
+      </div>
+      <div class="col-md-4">
+        <input type="date" class="form-control" [(ngModel)]="newTask.dueDate" />
+      </div>
+      <div class="col-md-3">
+        <select class="form-select" [(ngModel)]="newTask.priority">
+          <option disabled selected value="">Select Priority</option>
+          <option [value]="1">High</option>
+          <option [value]="2">Medium</option>
+          <option [value]="3">Low</option>
+        </select>
+      </div>
+      <div class="col-md-3">
+        <select class="form-select" [(ngModel)]="newTask.categoryId">
+          <option disabled selected value="0">-- Select Category --</option>
+          @for (cat of categories; track cat.categoryId) {
+            <option [value]="cat.categoryId">{{ cat.name }}</option>
+          }
+        </select>
+      </div>
+      <div class="col-md-3">
+        <select class="form-select" [(ngModel)]="newTask.assignedToUserId">
+          <option disabled selected value="0">-- Assign to User --</option>
+          @for (user of users; track user.userId) {
+            <option [value]="user.userId">{{ user.username }}</option>
+          }
+        </select>
+      </div>
+      <div class="col-md-3">
+        <button class="btn btn-success w-100" (click)="createTask()">Add Task</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Assign Task -->
+  <div class="card mb-4 shadow-sm">
+    <div class="card-header bg-dark text-white">👥 Assign Task</div>
+    <div class="card-body row g-3 align-items-end">
+      <div class="col-md-5">
+        <label class="form-label">Select Task</label>
+        <select class="form-select" [(ngModel)]="selectedTaskId">
+          <option [ngValue]="null">-- Select Task --</option>
+          @for (task of tasks; track task.taskId) {
+            <option [value]="task.taskId">{{ task.title }}</option>
+          }
+        </select>
+      </div>
+      <div class="col-md-5">
+        <label class="form-label">Select User</label>
+        <select class="form-select" [(ngModel)]="selectedUserId">
+          <option [ngValue]="null">-- Select User --</option>
+          @for (user of users; track user.userId) {
+            <option [value]="user.userId">{{ user.username }}</option>
+          }
+        </select>
+      </div>
+      <div class="col-md-2">
+        <button class="btn btn-primary w-100" (click)="assignTask()">Assign</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  @if (loading) {
+    <div class="text-center my-4">
+      <div class="spinner-border text-primary" role="status"></div>
+      <p class="text-muted mt-2">Loading tasks...</p>
+    </div>
+  }
+
+  <!-- Task List -->
+  @if (!loading && tasks.length > 0) {
+    <table class="table table-hover table-striped align-middle shadow-sm">
+      <thead class="table-dark">
+        <tr>
+          <th>Title</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Priority</th>
+          <th>Due Date</th>
+          <th>Approval</th>
+          <th style="width: 220px;">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (task of tasks; track task.taskId) {
+          <tr>
+            <td>{{ task.title }}</td>
+            <td>{{ task.description }}</td>
+            <td>
+              <select class="form-select form-select-sm" [(ngModel)]="task.status" (change)="updateStatus(task.taskId, task.status)">
+                @for (s of statuses; track s) {
+                  <option [value]="s">{{ s }}</option>
+                }
+              </select>
+            </td>
+            <td>
+              <span class="badge"
+                [ngClass]="{
+                  'bg-danger': task.priority === 1,
+                  'bg-warning text-dark': task.priority === 2,
+                  'bg-success': task.priority === 3
+                }">
+                {{ task.priority === 1 ? 'High' : task.priority === 2 ? 'Medium' : 'Low' }}
+              </span>
+            </td>
+            <td>{{ task.dueDate | date: 'shortDate' }}</td>
+            <td>
+              <span class="badge bg-{{ task.isApproved ? 'success' : 'secondary' }}">
+                {{ task.isApproved ? 'Approved' : 'Not Approved' }}
+              </span>
+            </td>
+            <td>
+              <div class="d-flex flex-wrap gap-2">
+                @if (!task.isApproved) {
+                  <button class="btn btn-sm btn-outline-success" (click)="approveTask(task.taskId, true)">✅ Approve</button>
+                }
+                @if (task.isApproved) {
+                  <button class="btn btn-sm btn-outline-warning" (click)="approveTask(task.taskId, false)">❌ Revoke</button>
+                }
+                <button class="btn btn-sm btn-outline-danger" (click)="deleteTask(task.taskId)">🗑 Delete</button>
+              </div>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+
+  <!-- No Tasks -->
+  @if (!loading && tasks.length === 0) {
+    <div class="alert alert-info mt-3">ℹ No tasks found in this department.</div>
+  }
+</div>

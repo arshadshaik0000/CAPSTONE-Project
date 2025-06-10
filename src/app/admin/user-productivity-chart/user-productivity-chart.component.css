@@ -1,0 +1,34 @@
+.animated-fade-in {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.chart-wrapper {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+.card {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.spinner-border {
+  width: 3rem;
+  height: 3rem;
+}

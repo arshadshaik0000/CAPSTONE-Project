@@ -1,0 +1,77 @@
+<div class="container mt-4" *ngIf="!loading; else loadingTpl">
+  <!-- 🟦 Welcome Section -->
+  <div class="mb-4">
+    <h2>Welcome, {{ userName }}</h2>
+    <p class="text-muted">Role: {{ role }} | Department: {{ department }}</p>
+  </div>
+
+  <!-- 📊 Summary Cards -->
+  <div class="row g-3 mb-4">
+    <div class="col-md-3">
+      <div class="card text-center shadow-sm border-primary">
+        <div class="card-body">
+          <h5 class="card-title">Total Tasks</h5>
+          <p class="fs-4 fw-bold text-primary">{{ totalTasks }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card text-center shadow-sm border-success">
+        <div class="card-body">
+          <h5 class="card-title">Completed</h5>
+          <p class="fs-4 fw-bold text-success">{{ completedTasks }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card text-center shadow-sm border-warning">
+        <div class="card-body">
+          <h5 class="card-title">Pending</h5>
+          <p class="fs-4 fw-bold text-warning">{{ pendingTasks }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card text-center shadow-sm border-danger">
+        <div class="card-body">
+          <h5 class="card-title">Overdue</h5>
+          <p class="fs-4 fw-bold text-danger">{{ overdueTasks }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ✅ Quick Task List Preview -->
+  <div class="card mb-4 shadow-sm">
+    <div class="card-header bg-primary text-white">
+      Your Recent Tasks
+    </div>
+    <ul class="list-group list-group-flush">
+      <li *ngFor="let task of tasks.slice(0, 5)" class="list-group-item d-flex justify-content-between">
+        <span>{{ task.title }}</span>
+        <span class="badge bg-secondary">{{ task.status }}</span>
+      </li>
+    </ul>
+  </div>
+
+  <!-- 💬 Recent Comments -->
+  <div class="card mb-4 shadow-sm">
+    <div class="card-header bg-info text-white">
+      Recent Comments
+    </div>
+    <ul class="list-group list-group-flush">
+      <li *ngFor="let comment of recentComments.slice(0, 5)" class="list-group-item">
+        <div><strong>{{ comment.createdByUserId }}</strong> on Task #{{ comment.taskId }}</div>
+        <small class="text-muted">{{ comment.commentText  }}</small>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<!-- 🔄 Loading Spinner -->
+<ng-template #loadingTpl>
+  <div class="text-center mt-5">
+    <div class="spinner-border text-primary" role="status"></div>
+    <p class="mt-3">Loading dashboard...</p>
+  </div>
+</ng-template>

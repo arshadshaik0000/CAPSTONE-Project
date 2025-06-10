@@ -1,0 +1,42 @@
+<!-- src/app/superadmin/category-approval/category-approval.component.html -->
+
+<div class="container mt-4">
+  <h3 class="mb-4">Pending Category Approvals</h3>
+
+  @if (isLoading) {
+    <div class="text-center my-4">
+      <div class="spinner-border text-primary"></div>
+    </div>
+  }
+
+  @if (!isLoading && categories.length === 0) {
+    <div class="alert alert-info">No pending categories to approve.</div>
+  }
+
+  @if (categories.length > 0) {
+    <table class="table table-bordered table-striped">
+      <thead class="table-light">
+        <tr>
+          <th>#</th>
+          <th>Category Name</th>
+          <th>Tenant ID</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (cat of categories; track cat.categoryId) {
+          <tr>
+            <td>{{ $index + 1 }}</td>
+            <td>{{ cat.name }}</td>
+            <td>{{ cat.tenantId }}</td>
+            <td>
+              <button class="btn btn-sm btn-outline-success" (click)="approveCategory(cat.categoryId)">
+                Approve
+              </button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+</div>

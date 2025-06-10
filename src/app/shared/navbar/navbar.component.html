@@ -1,0 +1,62 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4 shadow-sm fixed-top animate-navbar">
+  <a class="navbar-brand fw-bold" routerLink="/">🧭 MultiTenant Task App</a>
+
+  <div class="collapse navbar-collapse">
+    <ul class="navbar-nav ms-auto">
+
+      @if (userRole === 'User') {
+        <li class="nav-item">
+          <a class="nav-link nav-animate" routerLink="/user/dashboard" routerLinkActive="active">Dashboard</a>
+        </li>
+      }
+
+      @if (userRole === 'Admin') {
+        <li class="nav-item">
+          <a class="nav-link nav-animate" routerLink="/admin/dashboard" routerLinkActive="active">Dashboard</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link nav-animate" routerLink="/admin/users" routerLinkActive="active">Users</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link nav-animate" routerLink="/admin/categories" routerLinkActive="active">Categories</a>
+        </li>
+      }
+
+      @if (userRole === 'SuperAdmin') {
+        <li class="nav-item">
+          <a class="nav-link nav-animate" routerLink="/superadmin/dashboard" routerLinkActive="active">Dashboard</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link nav-animate" routerLink="/superadmin/departments" routerLinkActive="active">Departments</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link nav-animate" routerLink="/superadmin/admins" routerLinkActive="active">Admins</a>
+        </li>
+      }
+
+      @if (auth.isLoggedIn()) {
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle text-white" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
+            {{ auth.getUsername() }} <small class="text-muted">({{ auth.getUserRole() }})</small>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end shadow animated-dropdown">
+            <li><span class="dropdown-item-text">📧 {{ auth.getUserEmail() }}</span></li>
+            <li><hr class="dropdown-divider" /></li>
+            <li><button class="dropdown-item text-danger" (click)="openLogoutModal()">🚪 Logout</button></li>
+          </ul>
+        </li>
+      }
+    </ul>
+  </div>
+</nav>
+
+@if (showLogoutConfirm) {
+  <div class="modal-backdrop fade-in d-flex align-items-center justify-content-center">
+    <div class="modal-box bg-white p-4 rounded shadow-sm text-center animate-modal" style="width: 300px;">
+      <h5>Confirm Logout</h5>
+      <p class="mb-3">Are you sure you want to logout?</p>
+      <button class="btn btn-danger btn-sm me-2" (click)="confirmLogout()">Yes</button>
+      <button class="btn btn-secondary btn-sm" (click)="cancelLogout()">No</button>
+    </div>
+  </div>
+}
