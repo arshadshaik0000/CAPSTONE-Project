@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "DrZtoW5D4X7Rto5rZU0B/EDjkux8LmkZl85pjYX3Hpk=",
+  "Source": "MultiTenantTaskManagementSystem",
+  "BasePath": "_content/MultiTenantTaskManagementSystem",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}
